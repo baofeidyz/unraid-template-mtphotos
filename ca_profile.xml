@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CommunityApplications>
+  <Profile>
+    由 baofeidyz 维护的 Unraid Community Applications 模板。本仓库提供 MT Photos Docker 模板，使用 mtphotos/mt-photos:nodb-latest。模板支持：https://github.com/baofeidyz/unraid-template-mtphotos/issues
+    English: Unraid Community Applications templates maintained by baofeidyz. This repository provides the MT Photos Docker template. For template support, use https://github.com/baofeidyz/unraid-template-mtphotos/issues
+  </Profile>
+  <Icon>https://raw.githubusercontent.com/baofeidyz/unraid-template-mtphotos/main/icons/mtphotos.png</Icon>
+  <WebPage>https://github.com/baofeidyz/unraid-template-mtphotos</WebPage>
+  <Forum>https://github.com/baofeidyz/unraid-template-mtphotos/issues</Forum>
+</CommunityApplications>
