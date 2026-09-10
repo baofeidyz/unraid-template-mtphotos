@@ -14,7 +14,7 @@
   <Overview>MT Photos 是面向 NAS 用户的私有照片与视频管理系统，支持导入已有图库、手机备份、缩略图、预览、人脸识别和地理位置元数据。本模板使用 mtphotos/mt-photos:nodb-latest，不内置数据库，需另行配置数据库服务并单独备份。
 
 English: MT Photos is a private photo and video management system for NAS users. It supports importing existing libraries, mobile photo backup, thumbnails, previews, face recognition and location metadata. This template uses mtphotos/mt-photos:nodb-latest, which does not bundle a database. Configure and back up a separate database service.</Overview>
-  <Category>MediaApp:Photos</Category>
+  <Category>MediaServer:Photos</Category>
   <ExtraSearchTerms>photo photos gallery album backup NAS</ExtraSearchTerms>
   <Requires>需要 x86_64 系统及独立 PostgreSQL 服务；人脸识别和以文搜图需要 pgvector 支持。建议系统内存至少 4 GB、双核 2.0 GHz CPU。 English: Requires x86_64 and a separate PostgreSQL service; face recognition and text-to-image search require pgvector support. Recommended: at least 4 GB RAM and a dual-core 2.0 GHz CPU.</Requires>
 
