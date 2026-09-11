@@ -6,21 +6,16 @@ This repository contains an Unraid Docker template for [MT Photos](https://mtmt.
 
 ## Repository contents
 
-- `templates/mtphotos-nodb.xml` — unified Unraid Docker template (v2) with selectable bundled or external PostgreSQL
+- `templates/mtphotos-nodb.xml` — Unraid Docker template (v2) with bundled PostgreSQL (keeps the already-listed template URL)
 - `ca_profile.xml` — Community Applications maintainer profile
 - `icons/mtphotos.png` — Repository/application icon
 - `README.md` — English documentation (default)
 - `README_CN.md` — Simplified Chinese documentation
 - `LICENSE` — Template repository license
 
-## Choose a template
+## Image and configuration
 
-- The default `latest` branch bundles PostgreSQL. Database files, settings, thumbnails, previews and cache are stored under `/config`; persist and back up this directory.
-- The `nodb-latest` branch connects to separately managed PostgreSQL. Select it and fill in the five advanced `POSTGRES_*` variables; persist and back up that database independently.
-
-## NoDB branch configuration
-
-After selecting `nodb-latest`, the template uses the official image without a database. Configure a separate database service and enter its connection settings under Advanced View. Persist and back up the external database separately; backing up `/config` alone does not replace a database backup.
+The template uses the official `mtphotos/mt-photos:latest` image with bundled PostgreSQL. Database files, settings, thumbnails, previews and cache are stored under `/config`; persist and back up this directory.
 
 | Setting | Container target and host default |
 | --- | --- |
@@ -30,26 +25,13 @@ After selecting `nodb-latest`, the template uses the official image without a da
 | Mobile uploads | `/upload` ← `/mnt/user/photos/MTPhotos-Upload` |
 | Existing library | `/photos` ← `/mnt/user/photos` |
 | Timezone | `TZ=Asia/Shanghai` |
-| NoDB PostgreSQL host | `POSTGRES_HOST` — fill after selecting NoDB |
-| NoDB PostgreSQL port | `POSTGRES_PORT` — normally `5432` |
-| NoDB PostgreSQL database | `POSTGRES_DATABASE` — normally `postgres` |
-| NoDB PostgreSQL user | `POSTGRES_USER` |
-| NoDB PostgreSQL password | `POSTGRES_PASSWORD` — masked input |
 | Temporary storage (optional; transcoding use unverified) | `/temp` ← `/mnt/user/appdata/mtphotos/temp` |
 
-Configure the five `POSTGRES_*` variables to match your existing database, following the [official environment variable reference](https://mtmt.tech/docs/advanced/env/). Use an address and port reachable from the MT Photos container; in bridge mode, `localhost` and `127.0.0.1` refer to the MT Photos container itself. The password setting does not change the database user's password.
-
-## Requirements and database networking
+## Requirements
 
 Recommended hardware: x86_64, at least 4 GB RAM and a dual-core 2.0 GHz CPU, following the [official installation guide](https://mtmt.tech/docs/start/install/).
 
-Face recognition and text-to-image search require PostgreSQL with pgvector support. The [official database guide](https://mtmt.tech/docs/advanced/db/) provides `mtphotos/mt-photos-pg:latest`; a plain PostgreSQL installation does not provide these vector features by itself.
-
-- With the default `bridge` network, use the NAS LAN IP and PostgreSQL's published host port. For example, if PostgreSQL publishes `5433:5432`, set `POSTGRES_PORT=5433`.
-- To connect using a database container name, attach both containers to the same user-defined Docker network and use the database container port (normally `5432`). Default bridge does not automatically resolve container names.
-- For a database on another server, use its reachable address and port. Do not use `localhost` or `127.0.0.1` for an external database.
-
-See [Docker bridge networking](https://docs.docker.com/engine/network/drivers/bridge/).
+This template uses PostgreSQL bundled in the image and persists its database data through `/config`.
 
 ## Temporary storage: verification pending
 
@@ -85,14 +67,14 @@ Before submitting to Community Applications:
 
 1. Push to the `main` branch of a public GitHub repository.
 2. Check the URLs referenced by `Icon`, `TemplateURL`, `ReadMe`, `Support`, `Project`, `WebPage`, and `Forum`; ensure they are accessible and contain no placeholders.
-3. Test both image branches manually on Unraid. For `latest`, verify database persistence under `/config` and backup restoration. For `nodb-latest`, fill in the advanced database variables and test the external connection. For both, verify startup, WebUI access, mobile backup to `/upload`, and library access under `/photos`.
+3. Install manually on Unraid and verify startup, WebUI access, database persistence under `/config`, backup restoration, mobile backup to `/upload`, and library access under `/photos`.
 4. Verify the actual temporary transcoding path and, if using the optional `temp` mapping, confirm temporary files are written to its host directory. Check host paths and timezone; use a read-only library mapping to prevent changes to originals, and verify separate database backups.
 5. Submit the public repository through the [Unraid Community Applications submission portal](https://ca.unraid.net/submit).
 
 ## Notes
 
 - The WebUI URL uses `[PORT:8063]`, which Unraid resolves to the mapped host port.
-- `/config` stores settings, thumbnails, previews and cache, plus the bundled database on `latest`; `/upload` stores mobile photo and video backups. Keep both mappings persistent and writable.
+- `/config` stores the bundled database, settings, thumbnails, previews and cache; `/upload` stores mobile photo and video backups. Keep both mappings persistent and writable.
 - Add further path mappings in Unraid for additional libraries.
 - This repository packages only Community Applications metadata. MT Photos and its Docker image remain subject to their respective upstream terms.
 
