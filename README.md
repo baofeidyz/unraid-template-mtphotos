@@ -8,8 +8,8 @@ This repository contains an Unraid Docker template for [MT Photos](https://mtmt.
 
 - `templates/mtphotos.xml` — Unraid Docker template (v2) with bundled PostgreSQL
 - `templates/mtphotos-nodb.xml` — NoDB template for external PostgreSQL
-- `templates/MtPhotos_AI.xml` — MT Photos AI recognition API (ONNX) template
-- `templates/MtPhotos_Insightface_API.xml` — MT Photos InsightFace facial recognition API template
+- `templates/mtphotos-ai.xml` — MT Photos AI recognition API (ONNX) template
+- `templates/mtphotos-insightface-api.xml` — MT Photos InsightFace facial recognition API template
 - `ca_profile.xml` — Community Applications maintainer profile
 - `icons/mtphotos.png` — Repository/application icon
 - `README.md` — English documentation (default)
@@ -27,8 +27,8 @@ Both main apps default to the same WebUI port, upload path and library path. Do 
 
 | App | Image | Port | Configuration |
 | --- | --- | --- | --- |
-| `mt-photos-ai` | `mtphotos/mt-photos-ai:onnx-latest` | `8060/tcp` | `API_AUTH_KEY` |
-| `mt-photos-insightface` | `devfox101/mt-photos-insightface-unofficial:latest` | `8066/tcp` | `API_AUTH_KEY` |
+| `mtphotos-ai` | `mtphotos/mt-photos-ai:onnx-latest` | `8060/tcp` | `API_AUTH_KEY` |
+| `mtphotos-insightface-api` | `devfox101/mt-photos-insightface-unofficial:latest` | `8066/tcp` | `API_AUTH_KEY` |
 
 Neither API container requires a storage mapping. After installation, add their API addresses in MT Photos, for example `http://NAS-LAN-IP:8060` and `http://NAS-LAN-IP:8066`, using the matching `API_AUTH_KEY` from each template. InsightFace uses a community image and is not an official MT Photos image.
 
@@ -65,8 +65,8 @@ Publish the files to the `main` branch and verify these raw URLs:
 ```text
 https://raw.githubusercontent.com/baofeidyz/unraid-template-mtphotos/main/templates/mtphotos-nodb.xml
 https://raw.githubusercontent.com/baofeidyz/unraid-template-mtphotos/main/templates/mtphotos.xml
-https://raw.githubusercontent.com/baofeidyz/unraid-template-mtphotos/main/templates/MtPhotos_AI.xml
-https://raw.githubusercontent.com/baofeidyz/unraid-template-mtphotos/main/templates/MtPhotos_Insightface_API.xml
+https://raw.githubusercontent.com/baofeidyz/unraid-template-mtphotos/main/templates/mtphotos-ai.xml
+https://raw.githubusercontent.com/baofeidyz/unraid-template-mtphotos/main/templates/mtphotos-insightface-api.xml
 https://raw.githubusercontent.com/baofeidyz/unraid-template-mtphotos/main/icons/mtphotos.png
 https://raw.githubusercontent.com/baofeidyz/unraid-template-mtphotos/main/README.md
 ```

@@ -8,8 +8,8 @@
 
 - `templates/mtphotos.xml` — 带内置 PostgreSQL 的 Unraid Docker v2 模板
 - `templates/mtphotos-nodb.xml` — 连接外部 PostgreSQL 的 NoDB 模板
-- `templates/MtPhotos_AI.xml` — MT Photos 智能识别 API（ONNX）模板
-- `templates/MtPhotos_Insightface_API.xml` — MT Photos InsightFace 人脸识别 API 模板
+- `templates/mtphotos-ai.xml` — MT Photos 智能识别 API（ONNX）模板
+- `templates/mtphotos-insightface-api.xml` — MT Photos InsightFace 人脸识别 API 模板
 - `ca_profile.xml` — Community Applications 维护者资料
 - `icons/mtphotos.png` — 仓库及应用图标
 - `README.md` — 英文说明（默认）
@@ -27,8 +27,8 @@
 
 | 应用 | 镜像 | 端口 | 配置 |
 | --- | --- | --- | --- |
-| `mt-photos-ai` | `mtphotos/mt-photos-ai:onnx-latest` | `8060/tcp` | `API_AUTH_KEY` |
-| `mt-photos-insightface` | `devfox101/mt-photos-insightface-unofficial:latest` | `8066/tcp` | `API_AUTH_KEY` |
+| `mtphotos-ai` | `mtphotos/mt-photos-ai:onnx-latest` | `8060/tcp` | `API_AUTH_KEY` |
+| `mtphotos-insightface-api` | `devfox101/mt-photos-insightface-unofficial:latest` | `8066/tcp` | `API_AUTH_KEY` |
 
 两个 API 容器都不需要目录映射。安装后在 MT Photos 后台分别添加对应的 API 地址，例如 `http://NAS局域网IP:8060` 和 `http://NAS局域网IP:8066`，并填写各模板中相同的 `API_AUTH_KEY`。InsightFace 使用社区镜像，并非 MT Photos 官方镜像。
 
@@ -64,8 +64,8 @@
 ```text
 https://raw.githubusercontent.com/baofeidyz/unraid-template-mtphotos/main/templates/mtphotos-nodb.xml
 https://raw.githubusercontent.com/baofeidyz/unraid-template-mtphotos/main/templates/mtphotos.xml
-https://raw.githubusercontent.com/baofeidyz/unraid-template-mtphotos/main/templates/MtPhotos_AI.xml
-https://raw.githubusercontent.com/baofeidyz/unraid-template-mtphotos/main/templates/MtPhotos_Insightface_API.xml
+https://raw.githubusercontent.com/baofeidyz/unraid-template-mtphotos/main/templates/mtphotos-ai.xml
+https://raw.githubusercontent.com/baofeidyz/unraid-template-mtphotos/main/templates/mtphotos-insightface-api.xml
 https://raw.githubusercontent.com/baofeidyz/unraid-template-mtphotos/main/icons/mtphotos.png
 https://raw.githubusercontent.com/baofeidyz/unraid-template-mtphotos/main/README.md
 ```

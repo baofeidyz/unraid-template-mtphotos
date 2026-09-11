@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Container version="2">
-  <Name>mt-photos-insightface</Name>
+  <Name>mtphotos-insightface-api</Name>
   <Repository>devfox101/mt-photos-insightface-unofficial:latest</Repository>
   <Registry>https://hub.docker.com/r/devfox101/mt-photos-insightface-unofficial</Registry>
   <Network>bridge</Network>
@@ -22,7 +22,7 @@ English: Unofficial InsightFace API for MT Photos, providing face detection and 
 
   <Support>https://github.com/dev-fox-101/mt-photos-insightface-unofficial/issues</Support>
   <Project>https://mtmt.tech/docs/advanced/facial_api/</Project>
-  <TemplateURL>https://raw.githubusercontent.com/baofeidyz/unraid-template-mtphotos/main/templates/MtPhotos_Insightface_API.xml</TemplateURL>
+  <TemplateURL>https://raw.githubusercontent.com/baofeidyz/unraid-template-mtphotos/main/templates/mtphotos-insightface-api.xml</TemplateURL>
   <ReadMe>https://raw.githubusercontent.com/baofeidyz/unraid-template-mtphotos/main/README.md</ReadMe>
 
   <Config Name="API 端口 / API Port" Target="8066" Default="8066" Mode="tcp" Description="MT Photos InsightFace 人脸识别 API 端口。 English: MT Photos InsightFace API port." Type="Port" Display="always" Required="true" Mask="false"/>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Container version="2">
-  <Name>mt-photos-ai</Name>
+  <Name>mtphotos-ai</Name>
   <Repository>mtphotos/mt-photos-ai:onnx-latest</Repository>
   <Registry>https://hub.docker.com/r/mtphotos/mt-photos-ai</Registry>
   <Network>bridge</Network>
@@ -22,7 +22,7 @@ English: MT Photos AI API service for OCR, image-content recognition and text-to
 
   <Support>https://mtmt.tech/contact</Support>
   <Project>https://mtmt.tech/docs/advanced/ocr_api/</Project>
-  <TemplateURL>https://raw.githubusercontent.com/baofeidyz/unraid-template-mtphotos/main/templates/MtPhotos_AI.xml</TemplateURL>
+  <TemplateURL>https://raw.githubusercontent.com/baofeidyz/unraid-template-mtphotos/main/templates/mtphotos-ai.xml</TemplateURL>
   <ReadMe>https://raw.githubusercontent.com/baofeidyz/unraid-template-mtphotos/main/README.md</ReadMe>
 
   <Config Name="API 端口 / API Port" Target="8060" Default="8060" Mode="tcp" Description="MT Photos 智能识别 API 端口。 English: MT Photos AI API port." Type="Port" Display="always" Required="true" Mask="false"/>
