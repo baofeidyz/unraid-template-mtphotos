@@ -1,4 +1,4 @@
-# MT Photos Unraid Templates
+# MT Photos Unraid Template
 
 English | [简体中文](README_CN.md)
 
@@ -6,8 +6,7 @@ This repository contains an Unraid Docker template for [MT Photos](https://mtmt.
 
 ## Repository contents
 
-- `templates/mtphotos.xml` — Unraid Docker template (v2) with bundled PostgreSQL
-- `templates/mtphotos-nodb.xml` — Unraid Docker template (v2) for external PostgreSQL
+- `templates/mtphotos-nodb.xml` — unified Unraid Docker template (v2) with selectable bundled or external PostgreSQL
 - `ca_profile.xml` — Community Applications maintainer profile
 - `icons/mtphotos.png` — Repository/application icon
 - `README.md` — English documentation (default)
@@ -16,12 +15,12 @@ This repository contains an Unraid Docker template for [MT Photos](https://mtmt.
 
 ## Choose a template
 
-- `mtphotos` uses the official `mtphotos/mt-photos:latest` image with bundled PostgreSQL. Database files, application settings, thumbnails, previews and cache are stored under `/config`; persist and back up this directory.
-- `mtphotos-nodb` uses `mtphotos/mt-photos:nodb-latest` and connects to a separately managed PostgreSQL service. Persist and back up that database independently.
+- The default `latest` branch bundles PostgreSQL. Database files, settings, thumbnails, previews and cache are stored under `/config`; persist and back up this directory.
+- The `nodb-latest` branch connects to separately managed PostgreSQL. Select it and fill in the five advanced `POSTGRES_*` variables; persist and back up that database independently.
 
-## NoDB image and configuration
+## NoDB branch configuration
 
-The template uses the official `mtphotos/mt-photos:nodb-latest` image, which does not bundle a database, as documented in the [official installation guide](https://mtmt.tech/docs/start/install/). Configure a separate database service. This template does not create a database container. Enter the connection settings below for your existing PostgreSQL service. Persist and back up the external database separately; backing up `/config` alone does not replace a database backup.
+After selecting `nodb-latest`, the template uses the official image without a database. Configure a separate database service and enter its connection settings under Advanced View. Persist and back up the external database separately; backing up `/config` alone does not replace a database backup.
 
 | Setting | Container target and host default |
 | --- | --- |
@@ -31,11 +30,11 @@ The template uses the official `mtphotos/mt-photos:nodb-latest` image, which doe
 | Mobile uploads | `/upload` ← `/mnt/user/photos/MTPhotos-Upload` |
 | Existing library | `/photos` ← `/mnt/user/photos` |
 | Timezone | `TZ=Asia/Shanghai` |
-| PostgreSQL host | `POSTGRES_HOST` — required, no default |
-| PostgreSQL port | `POSTGRES_PORT=5432` |
-| PostgreSQL database | `POSTGRES_DATABASE=postgres` |
-| PostgreSQL user | `POSTGRES_USER=postgres` |
-| PostgreSQL password | `POSTGRES_PASSWORD` — required, no default; masked input |
+| NoDB PostgreSQL host | `POSTGRES_HOST` — fill after selecting NoDB |
+| NoDB PostgreSQL port | `POSTGRES_PORT` — normally `5432` |
+| NoDB PostgreSQL database | `POSTGRES_DATABASE` — normally `postgres` |
+| NoDB PostgreSQL user | `POSTGRES_USER` |
+| NoDB PostgreSQL password | `POSTGRES_PASSWORD` — masked input |
 | Temporary storage (optional; transcoding use unverified) | `/temp` ← `/mnt/user/appdata/mtphotos/temp` |
 
 Configure the five `POSTGRES_*` variables to match your existing database, following the [official environment variable reference](https://mtmt.tech/docs/advanced/env/). Use an address and port reachable from the MT Photos container; in bridge mode, `localhost` and `127.0.0.1` refer to the MT Photos container itself. The password setting does not change the database user's password.
@@ -68,7 +67,6 @@ Publish the files to the `main` branch and verify these raw URLs:
 
 ```text
 https://raw.githubusercontent.com/baofeidyz/unraid-template-mtphotos/main/templates/mtphotos-nodb.xml
-https://raw.githubusercontent.com/baofeidyz/unraid-template-mtphotos/main/templates/mtphotos.xml
 https://raw.githubusercontent.com/baofeidyz/unraid-template-mtphotos/main/icons/mtphotos.png
 https://raw.githubusercontent.com/baofeidyz/unraid-template-mtphotos/main/README.md
 ```
@@ -77,24 +75,24 @@ The application icon is `icons/mtphotos.png`. If you replace it, use an image yo
 
 ## Validate and test
 
-Validate both XML files from the repository root:
+Validate the XML files from the repository root:
 
 ```bash
-xmllint --noout ca_profile.xml templates/mtphotos.xml templates/mtphotos-nodb.xml
+xmllint --noout ca_profile.xml templates/mtphotos-nodb.xml
 ```
 
 Before submitting to Community Applications:
 
 1. Push to the `main` branch of a public GitHub repository.
 2. Check the URLs referenced by `Icon`, `TemplateURL`, `ReadMe`, `Support`, `Project`, `WebPage`, and `Forum`; ensure they are accessible and contain no placeholders.
-3. Install the required template manually on Unraid. For the bundled-database template, verify database persistence under `/config` and backup restoration. For NoDB, configure and test the external database connection. For both, verify startup, WebUI access, mobile backup to `/upload`, and library access under `/photos`.
+3. Test both image branches manually on Unraid. For `latest`, verify database persistence under `/config` and backup restoration. For `nodb-latest`, fill in the advanced database variables and test the external connection. For both, verify startup, WebUI access, mobile backup to `/upload`, and library access under `/photos`.
 4. Verify the actual temporary transcoding path and, if using the optional `temp` mapping, confirm temporary files are written to its host directory. Check host paths and timezone; use a read-only library mapping to prevent changes to originals, and verify separate database backups.
 5. Submit the public repository through the [Unraid Community Applications submission portal](https://ca.unraid.net/submit).
 
 ## Notes
 
 - The WebUI URL uses `[PORT:8063]`, which Unraid resolves to the mapped host port.
-- `/config` stores settings, thumbnails, previews and cache; `/upload` stores mobile photo and video backups. Keep both mappings persistent and writable.
+- `/config` stores settings, thumbnails, previews and cache, plus the bundled database on `latest`; `/upload` stores mobile photo and video backups. Keep both mappings persistent and writable.
 - Add further path mappings in Unraid for additional libraries.
 - This repository packages only Community Applications metadata. MT Photos and its Docker image remain subject to their respective upstream terms.
 
