@@ -1,4 +1,4 @@
-# MT Photos NoDB Unraid Template
+# MT Photos Unraid Templates
 
 English | [简体中文](README_CN.md)
 
@@ -6,14 +6,20 @@ This repository contains an Unraid Docker template for [MT Photos](https://mtmt.
 
 ## Repository contents
 
-- `templates/mtphotos-nodb.xml` — Unraid Docker template (v2), with bilingual Chinese and English configuration descriptions
+- `templates/mtphotos.xml` — Unraid Docker template (v2) with bundled PostgreSQL
+- `templates/mtphotos-nodb.xml` — Unraid Docker template (v2) for external PostgreSQL
 - `ca_profile.xml` — Community Applications maintainer profile
 - `icons/mtphotos.png` — Repository/application icon
 - `README.md` — English documentation (default)
 - `README_CN.md` — Simplified Chinese documentation
 - `LICENSE` — Template repository license
 
-## Image and configuration
+## Choose a template
+
+- `mtphotos` uses the official `mtphotos/mt-photos:latest` image with bundled PostgreSQL. Database files, application settings, thumbnails, previews and cache are stored under `/config`; persist and back up this directory.
+- `mtphotos-nodb` uses `mtphotos/mt-photos:nodb-latest` and connects to a separately managed PostgreSQL service. Persist and back up that database independently.
+
+## NoDB image and configuration
 
 The template uses the official `mtphotos/mt-photos:nodb-latest` image, which does not bundle a database, as documented in the [official installation guide](https://mtmt.tech/docs/start/install/). Configure a separate database service. This template does not create a database container. Enter the connection settings below for your existing PostgreSQL service. Persist and back up the external database separately; backing up `/config` alone does not replace a database backup.
 
@@ -62,6 +68,7 @@ Publish the files to the `main` branch and verify these raw URLs:
 
 ```text
 https://raw.githubusercontent.com/baofeidyz/unraid-template-mtphotos/main/templates/mtphotos-nodb.xml
+https://raw.githubusercontent.com/baofeidyz/unraid-template-mtphotos/main/templates/mtphotos.xml
 https://raw.githubusercontent.com/baofeidyz/unraid-template-mtphotos/main/icons/mtphotos.png
 https://raw.githubusercontent.com/baofeidyz/unraid-template-mtphotos/main/README.md
 ```
@@ -73,14 +80,14 @@ The application icon is `icons/mtphotos.png`. If you replace it, use an image yo
 Validate both XML files from the repository root:
 
 ```bash
-xmllint --noout ca_profile.xml templates/mtphotos-nodb.xml
+xmllint --noout ca_profile.xml templates/mtphotos.xml templates/mtphotos-nodb.xml
 ```
 
 Before submitting to Community Applications:
 
 1. Push to the `main` branch of a public GitHub repository.
 2. Check the URLs referenced by `Icon`, `TemplateURL`, `ReadMe`, `Support`, `Project`, `WebPage`, and `Forum`; ensure they are accessible and contain no placeholders.
-3. Install manually on Unraid, configure a separate database, and verify startup, database connectivity, WebUI access, persistence under `/config`, mobile backup to `/upload`, and library access under `/photos`.
+3. Install the required template manually on Unraid. For the bundled-database template, verify database persistence under `/config` and backup restoration. For NoDB, configure and test the external database connection. For both, verify startup, WebUI access, mobile backup to `/upload`, and library access under `/photos`.
 4. Verify the actual temporary transcoding path and, if using the optional `temp` mapping, confirm temporary files are written to its host directory. Check host paths and timezone; use a read-only library mapping to prevent changes to originals, and verify separate database backups.
 5. Submit the public repository through the [Unraid Community Applications submission portal](https://ca.unraid.net/submit).
 

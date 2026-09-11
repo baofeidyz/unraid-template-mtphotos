@@ -1,4 +1,4 @@
-# MT Photos 不含数据库版 Unraid 模板
+# MT Photos Unraid 模板
 
 [English](README.md) | 简体中文
 
@@ -6,14 +6,20 @@
 
 ## 仓库内容
 
-- `templates/mtphotos-nodb.xml` — Unraid Docker v2 模板，配置项说明保留中英双语
+- `templates/mtphotos.xml` — 带内置 PostgreSQL 数据库的 Unraid Docker v2 模板
+- `templates/mtphotos-nodb.xml` — 使用外部 PostgreSQL 的 Unraid Docker v2 模板
 - `ca_profile.xml` — Community Applications 维护者资料
 - `icons/mtphotos.png` — 仓库及应用图标
 - `README.md` — 英文说明（默认）
 - `README_CN.md` — 简体中文说明
 - `LICENSE` — 模板仓库许可证
 
-## 镜像与配置
+## 模板选择
+
+- `mtphotos` 使用官方镜像 `mtphotos/mt-photos:latest`，镜像内置 PostgreSQL。数据库文件与应用配置、缩略图、预览和缓存一同保存在 `/config`，必须持久化并备份该目录。
+- `mtphotos-nodb` 使用 `mtphotos/mt-photos:nodb-latest`，适合连接单独维护的 PostgreSQL 服务，数据库需要独立持久化和备份。
+
+## 不含数据库版配置
 
 模板使用官方镜像 `mtphotos/mt-photos:nodb-latest`。根据[官方安装说明](https://mtmt.tech/docs/start/install/)，此标签不内置数据库，需另行配置数据库服务。本模板不创建数据库容器，请通过下列配置项填写已有 PostgreSQL 服务的连接信息。外部数据库需单独持久化和备份，仅备份 `/config` 不能替代数据库备份。
 
@@ -61,6 +67,7 @@
 
 ```text
 https://raw.githubusercontent.com/baofeidyz/unraid-template-mtphotos/main/templates/mtphotos-nodb.xml
+https://raw.githubusercontent.com/baofeidyz/unraid-template-mtphotos/main/templates/mtphotos.xml
 https://raw.githubusercontent.com/baofeidyz/unraid-template-mtphotos/main/icons/mtphotos.png
 https://raw.githubusercontent.com/baofeidyz/unraid-template-mtphotos/main/README.md
 ```
@@ -72,14 +79,14 @@ https://raw.githubusercontent.com/baofeidyz/unraid-template-mtphotos/main/README
 在仓库根目录验证两个 XML 文件：
 
 ```bash
-xmllint --noout ca_profile.xml templates/mtphotos-nodb.xml
+xmllint --noout ca_profile.xml templates/mtphotos.xml templates/mtphotos-nodb.xml
 ```
 
 提交到 Community Applications 前：
 
 1. 推送到公开 GitHub 仓库的 `main` 分支。
 2. 检查 `Icon`、`TemplateURL`、`ReadMe`、`Support`、`Project`、`WebPage` 和 `Forum` 引用，确保可访问且没有占位符。
-3. 在 Unraid 手动安装模板，配置独立数据库，验证启动、数据库连接、网页访问、`/config` 持久化、`/upload` 手机备份和 `/photos` 图库访问。
+3. 在 Unraid 分别手动安装所需模板。内置数据库版需验证数据库随 `/config` 持久化及备份恢复；NoDB 版需配置独立数据库并验证连接。两版均需验证启动、网页访问、`/upload` 手机备份和 `/photos` 图库访问。
 4. 验证实际临时转码路径；如使用可选 `temp` 映射，确认临时文件写入对应宿主机目录。核对宿主机路径和时区；如禁止修改原文件，将图库映射改为只读，并单独验证数据库备份。
 5. 通过 [Unraid Community Applications 提交入口](https://ca.unraid.net/submit)提交公开仓库。
 
