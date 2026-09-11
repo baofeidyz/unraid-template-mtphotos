@@ -1,4 +1,4 @@
-# MT Photos Unraid Template
+# MT Photos Unraid Templates
 
 English | [简体中文](README_CN.md)
 
@@ -6,7 +6,8 @@ This repository contains an Unraid Docker template for [MT Photos](https://mtmt.
 
 ## Repository contents
 
-- `templates/mtphotos-nodb.xml` — Unraid Docker template (v2) with bundled PostgreSQL (keeps the already-listed template URL)
+- `templates/mtphotos.xml` — Unraid Docker template (v2) with bundled PostgreSQL
+- `templates/mtphotos-nodb.xml` — NoDB template for external PostgreSQL
 - `templates/MtPhotos_AI.xml` — MT Photos AI recognition API (ONNX) template
 - `templates/MtPhotos_Insightface_API.xml` — MT Photos InsightFace facial recognition API template
 - `ca_profile.xml` — Community Applications maintainer profile
@@ -17,7 +18,10 @@ This repository contains an Unraid Docker template for [MT Photos](https://mtmt.
 
 ## Image and configuration
 
-The template uses the official `mtphotos/mt-photos:latest` image with bundled PostgreSQL. Database files, settings, thumbnails, previews and cache are stored under `/config`; persist and back up this directory.
+- `mtphotos` uses `mtphotos/mt-photos:latest` with bundled PostgreSQL; its database is persisted under `/config`.
+- `mtphotos-nodb` uses `mtphotos/mt-photos:nodb-latest`. Configure `POSTGRES_HOST`, `POSTGRES_PORT`, `POSTGRES_DATABASE`, `POSTGRES_USER` and `POSTGRES_PASSWORD`, and back up the external database separately.
+
+Both main apps default to the same WebUI port, upload path and library path. Do not run both with unchanged defaults. For a parallel installation, change one app's host port and its `/config` and `/upload` host paths.
 
 ## Optional recognition services
 
@@ -42,7 +46,7 @@ Neither API container requires a storage mapping. After installation, add their 
 
 Recommended hardware: x86_64, at least 4 GB RAM and a dual-core 2.0 GHz CPU, following the [official installation guide](https://mtmt.tech/docs/start/install/).
 
-This template uses PostgreSQL bundled in the image and persists its database data through `/config`.
+The bundled-database template persists PostgreSQL through `/config`. NoDB requires a separate PostgreSQL service; face recognition and text-to-image search require pgvector support.
 
 ## Temporary storage: verification pending
 
@@ -60,13 +64,14 @@ Publish the files to the `main` branch and verify these raw URLs:
 
 ```text
 https://raw.githubusercontent.com/baofeidyz/unraid-template-mtphotos/main/templates/mtphotos-nodb.xml
+https://raw.githubusercontent.com/baofeidyz/unraid-template-mtphotos/main/templates/mtphotos.xml
 https://raw.githubusercontent.com/baofeidyz/unraid-template-mtphotos/main/templates/MtPhotos_AI.xml
 https://raw.githubusercontent.com/baofeidyz/unraid-template-mtphotos/main/templates/MtPhotos_Insightface_API.xml
 https://raw.githubusercontent.com/baofeidyz/unraid-template-mtphotos/main/icons/mtphotos.png
 https://raw.githubusercontent.com/baofeidyz/unraid-template-mtphotos/main/README.md
 ```
 
-The application icon is `icons/mtphotos.png`. If you replace it, use an image you are authorized to publish and update both XML files if the path changes.
+The main application icon is `icons/mtphotos.png`. If you replace it, use an image you are authorized to publish and update both main app templates and `ca_profile.xml` if the path changes.
 
 ## Validate and test
 

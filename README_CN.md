@@ -6,7 +6,8 @@
 
 ## 仓库内容
 
-- `templates/mtphotos-nodb.xml` — 带内置 PostgreSQL 的 Unraid Docker v2 模板（保留已收录的模板地址）
+- `templates/mtphotos.xml` — 带内置 PostgreSQL 的 Unraid Docker v2 模板
+- `templates/mtphotos-nodb.xml` — 连接外部 PostgreSQL 的 NoDB 模板
 - `templates/MtPhotos_AI.xml` — MT Photos 智能识别 API（ONNX）模板
 - `templates/MtPhotos_Insightface_API.xml` — MT Photos InsightFace 人脸识别 API 模板
 - `ca_profile.xml` — Community Applications 维护者资料
@@ -17,7 +18,10 @@
 
 ## 镜像与配置
 
-模板使用官方镜像 `mtphotos/mt-photos:latest`，内置 PostgreSQL。数据库文件与应用配置、缩略图、预览和缓存一同保存在 `/config`，必须持久化并备份该目录。
+- `mtphotos` 使用 `mtphotos/mt-photos:latest`，内置 PostgreSQL；数据库随 `/config` 持久化。
+- `mtphotos-nodb` 使用 `mtphotos/mt-photos:nodb-latest`，需填写 `POSTGRES_HOST`、`POSTGRES_PORT`、`POSTGRES_DATABASE`、`POSTGRES_USER` 和 `POSTGRES_PASSWORD`，并单独备份外部数据库。
+
+两个主应用默认使用相同的网页端口、上传目录和图库目录，不应以默认值同时运行。如需并行安装，请为其中一个修改宿主机端口及 `/config`、`/upload` 路径。
 
 ## 可选识别服务
 
@@ -42,7 +46,7 @@
 
 根据[官方安装说明](https://mtmt.tech/docs/start/install/)，建议使用 x86_64 系统、至少 4 GB 内存及双核 2.0 GHz CPU。
 
-本模板使用镜像内置的 PostgreSQL，数据库数据通过 `/config` 持久化。
+内置数据库版通过 `/config` 持久化数据库；NoDB 版需要另行提供 PostgreSQL，人脸识别和以文搜图需要数据库支持 pgvector。
 
 ## 临时目录：转码用途待验证
 
@@ -59,6 +63,7 @@
 
 ```text
 https://raw.githubusercontent.com/baofeidyz/unraid-template-mtphotos/main/templates/mtphotos-nodb.xml
+https://raw.githubusercontent.com/baofeidyz/unraid-template-mtphotos/main/templates/mtphotos.xml
 https://raw.githubusercontent.com/baofeidyz/unraid-template-mtphotos/main/templates/MtPhotos_AI.xml
 https://raw.githubusercontent.com/baofeidyz/unraid-template-mtphotos/main/templates/MtPhotos_Insightface_API.xml
 https://raw.githubusercontent.com/baofeidyz/unraid-template-mtphotos/main/icons/mtphotos.png
