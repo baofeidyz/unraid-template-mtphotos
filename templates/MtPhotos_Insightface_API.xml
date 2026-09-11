@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Container version="2">
+  <Name>mt-photos-insightface</Name>
+  <Repository>devfox101/mt-photos-insightface-unofficial:latest</Repository>
+  <Registry>https://hub.docker.com/r/devfox101/mt-photos-insightface-unofficial</Registry>
+  <Network>bridge</Network>
+  <MyIP/>
+  <Shell>sh</Shell>
+  <Privileged>false</Privileged>
+
+  <Icon>https://cdn.mtmt.tech/logo-r.png</Icon>
+  <WebUI>http://[IP]:[PORT:8066]/</WebUI>
+  <TailscalePort>8066</TailscalePort>
+
+  <Overview>MT Photos 非官方 InsightFace 人脸识别 API，使用 InsightFace 模型为 MT Photos 提供人脸检测与特征提取服务。镜像内置默认 buffalo_l 模型。
+
+English: Unofficial InsightFace API for MT Photos, providing face detection and feature extraction with InsightFace. The image bundles the default buffalo_l model.</Overview>
+  <Description>Unofficial MT Photos InsightFace API using devfox101/mt-photos-insightface-unofficial:latest. Add this service's address and matching API_AUTH_KEY in MT Photos settings.</Description>
+  <Category>MediaApp:Photos</Category>
+  <ExtraSearchTerms>MT Photos InsightFace face facial recognition API</ExtraSearchTerms>
+  <Requires>需要 x86_64 系统。服务启动后，需在 MT Photos 后台添加人脸识别 API 地址及相同的 API_AUTH_KEY。此镜像由社区项目提供，并非 MT Photos 官方镜像。 English: Requires x86_64. Add this face API address and the same API_AUTH_KEY in MT Photos settings. This is a community image, not an official MT Photos image.</Requires>
+
+  <Support>https://github.com/dev-fox-101/mt-photos-insightface-unofficial/issues</Support>
+  <Project>https://mtmt.tech/docs/advanced/facial_api/</Project>
+  <TemplateURL>https://raw.githubusercontent.com/baofeidyz/unraid-template-mtphotos/main/templates/MtPhotos_Insightface_API.xml</TemplateURL>
+  <ReadMe>https://raw.githubusercontent.com/baofeidyz/unraid-template-mtphotos/main/README.md</ReadMe>
+
+  <Config Name="API 端口 / API Port" Target="8066" Default="8066" Mode="tcp" Description="MT Photos InsightFace 人脸识别 API 端口。 English: MT Photos InsightFace API port." Type="Port" Display="always" Required="true" Mask="false"/>
+  <Config Name="API 密钥 / API_AUTH_KEY" Target="API_AUTH_KEY" Default="mt_photos_ai_extra" Description="验证 API 请求的密钥；在 MT Photos 后台添加人脸识别 API 时填写相同值。建议修改默认值。 English: API request authentication key. Enter the same value in MT Photos face API settings. Changing the default is recommended." Type="Variable" Display="always" Required="true" Mask="true"/>
+</Container>

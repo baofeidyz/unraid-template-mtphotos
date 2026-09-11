@@ -7,6 +7,8 @@ This repository contains an Unraid Docker template for [MT Photos](https://mtmt.
 ## Repository contents
 
 - `templates/mtphotos-nodb.xml` — Unraid Docker template (v2) with bundled PostgreSQL (keeps the already-listed template URL)
+- `templates/MtPhotos_AI.xml` — MT Photos AI recognition API (ONNX) template
+- `templates/MtPhotos_Insightface_API.xml` — MT Photos InsightFace facial recognition API template
 - `ca_profile.xml` — Community Applications maintainer profile
 - `icons/mtphotos.png` — Repository/application icon
 - `README.md` — English documentation (default)
@@ -16,6 +18,15 @@ This repository contains an Unraid Docker template for [MT Photos](https://mtmt.
 ## Image and configuration
 
 The template uses the official `mtphotos/mt-photos:latest` image with bundled PostgreSQL. Database files, settings, thumbnails, previews and cache are stored under `/config`; persist and back up this directory.
+
+## Optional recognition services
+
+| App | Image | Port | Configuration |
+| --- | --- | --- | --- |
+| `mt-photos-ai` | `mtphotos/mt-photos-ai:onnx-latest` | `8060/tcp` | `API_AUTH_KEY` |
+| `mt-photos-insightface` | `devfox101/mt-photos-insightface-unofficial:latest` | `8066/tcp` | `API_AUTH_KEY` |
+
+Neither API container requires a storage mapping. After installation, add their API addresses in MT Photos, for example `http://NAS-LAN-IP:8060` and `http://NAS-LAN-IP:8066`, using the matching `API_AUTH_KEY` from each template. InsightFace uses a community image and is not an official MT Photos image.
 
 | Setting | Container target and host default |
 | --- | --- |
@@ -49,6 +60,8 @@ Publish the files to the `main` branch and verify these raw URLs:
 
 ```text
 https://raw.githubusercontent.com/baofeidyz/unraid-template-mtphotos/main/templates/mtphotos-nodb.xml
+https://raw.githubusercontent.com/baofeidyz/unraid-template-mtphotos/main/templates/MtPhotos_AI.xml
+https://raw.githubusercontent.com/baofeidyz/unraid-template-mtphotos/main/templates/MtPhotos_Insightface_API.xml
 https://raw.githubusercontent.com/baofeidyz/unraid-template-mtphotos/main/icons/mtphotos.png
 https://raw.githubusercontent.com/baofeidyz/unraid-template-mtphotos/main/README.md
 ```
@@ -60,16 +73,17 @@ The application icon is `icons/mtphotos.png`. If you replace it, use an image yo
 Validate the XML files from the repository root:
 
 ```bash
-xmllint --noout ca_profile.xml templates/mtphotos-nodb.xml
+xmllint --noout ca_profile.xml templates/*.xml
 ```
 
 Before submitting to Community Applications:
 
 1. Push to the `main` branch of a public GitHub repository.
 2. Check the URLs referenced by `Icon`, `TemplateURL`, `ReadMe`, `Support`, `Project`, `WebPage`, and `Forum`; ensure they are accessible and contain no placeholders.
-3. Install manually on Unraid and verify startup, WebUI access, database persistence under `/config`, backup restoration, mobile backup to `/upload`, and library access under `/photos`.
-4. Verify the actual temporary transcoding path and, if using the optional `temp` mapping, confirm temporary files are written to its host directory. Check host paths and timezone; use a read-only library mapping to prevent changes to originals, and verify separate database backups.
-5. Submit the public repository through the [Unraid Community Applications submission portal](https://ca.unraid.net/submit).
+3. Install manually on Unraid and verify the main app's startup, WebUI access, database persistence under `/config`, backup restoration, mobile backup to `/upload`, and library access under `/photos`.
+4. Start each optional API, check it with the corresponding key, and verify AI and facial recognition jobs from MT Photos.
+5. Verify the actual temporary transcoding path and, if using the optional `temp` mapping, confirm temporary files are written to its host directory. Check host paths and timezone; use a read-only library mapping to prevent changes to originals, and verify separate database backups.
+6. Submit the public repository through the [Unraid Community Applications submission portal](https://ca.unraid.net/submit).
 
 ## Notes
 

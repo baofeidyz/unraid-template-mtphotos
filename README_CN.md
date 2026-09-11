@@ -7,6 +7,8 @@
 ## 仓库内容
 
 - `templates/mtphotos-nodb.xml` — 带内置 PostgreSQL 的 Unraid Docker v2 模板（保留已收录的模板地址）
+- `templates/MtPhotos_AI.xml` — MT Photos 智能识别 API（ONNX）模板
+- `templates/MtPhotos_Insightface_API.xml` — MT Photos InsightFace 人脸识别 API 模板
 - `ca_profile.xml` — Community Applications 维护者资料
 - `icons/mtphotos.png` — 仓库及应用图标
 - `README.md` — 英文说明（默认）
@@ -16,6 +18,15 @@
 ## 镜像与配置
 
 模板使用官方镜像 `mtphotos/mt-photos:latest`，内置 PostgreSQL。数据库文件与应用配置、缩略图、预览和缓存一同保存在 `/config`，必须持久化并备份该目录。
+
+## 可选识别服务
+
+| 应用 | 镜像 | 端口 | 配置 |
+| --- | --- | --- | --- |
+| `mt-photos-ai` | `mtphotos/mt-photos-ai:onnx-latest` | `8060/tcp` | `API_AUTH_KEY` |
+| `mt-photos-insightface` | `devfox101/mt-photos-insightface-unofficial:latest` | `8066/tcp` | `API_AUTH_KEY` |
+
+两个 API 容器都不需要目录映射。安装后在 MT Photos 后台分别添加对应的 API 地址，例如 `http://NAS局域网IP:8060` 和 `http://NAS局域网IP:8066`，并填写各模板中相同的 `API_AUTH_KEY`。InsightFace 使用社区镜像，并非 MT Photos 官方镜像。
 
 | 配置 | 容器目标与宿主机默认值 |
 | --- | --- |
@@ -48,6 +59,8 @@
 
 ```text
 https://raw.githubusercontent.com/baofeidyz/unraid-template-mtphotos/main/templates/mtphotos-nodb.xml
+https://raw.githubusercontent.com/baofeidyz/unraid-template-mtphotos/main/templates/MtPhotos_AI.xml
+https://raw.githubusercontent.com/baofeidyz/unraid-template-mtphotos/main/templates/MtPhotos_Insightface_API.xml
 https://raw.githubusercontent.com/baofeidyz/unraid-template-mtphotos/main/icons/mtphotos.png
 https://raw.githubusercontent.com/baofeidyz/unraid-template-mtphotos/main/README.md
 ```
@@ -59,16 +72,17 @@ https://raw.githubusercontent.com/baofeidyz/unraid-template-mtphotos/main/README
 在仓库根目录验证 XML 文件：
 
 ```bash
-xmllint --noout ca_profile.xml templates/mtphotos-nodb.xml
+xmllint --noout ca_profile.xml templates/*.xml
 ```
 
 提交到 Community Applications 前：
 
 1. 推送到公开 GitHub 仓库的 `main` 分支。
 2. 检查 `Icon`、`TemplateURL`、`ReadMe`、`Support`、`Project`、`WebPage` 和 `Forum` 引用，确保可访问且没有占位符。
-3. 在 Unraid 手动安装模板，验证启动、网页访问、数据库随 `/config` 持久化及备份恢复、`/upload` 手机备份和 `/photos` 图库访问。
-4. 验证实际临时转码路径；如使用可选 `temp` 映射，确认临时文件写入对应宿主机目录。核对宿主机路径和时区；如禁止修改原文件，将图库映射改为只读，并单独验证数据库备份。
-5. 通过 [Unraid Community Applications 提交入口](https://ca.unraid.net/submit)提交公开仓库。
+3. 在 Unraid 手动安装模板，验证主应用启动、网页访问、数据库随 `/config` 持久化及备份恢复、`/upload` 手机备份和 `/photos` 图库访问。
+4. 分别启动两个可选 API，使用对应密钥检查接口，并在 MT Photos 后台验证智能识别与人脸识别任务。
+5. 验证实际临时转码路径；如使用可选 `temp` 映射，确认临时文件写入对应宿主机目录。核对宿主机路径和时区；如禁止修改原文件，将图库映射改为只读，并单独验证数据库备份。
+6. 通过 [Unraid Community Applications 提交入口](https://ca.unraid.net/submit)提交公开仓库。
 
 ## 补充说明
 

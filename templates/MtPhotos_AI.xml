@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Container version="2">
+  <Name>mt-photos-ai</Name>
+  <Repository>mtphotos/mt-photos-ai:onnx-latest</Repository>
+  <Registry>https://hub.docker.com/r/mtphotos/mt-photos-ai</Registry>
+  <Network>bridge</Network>
+  <MyIP/>
+  <Shell>sh</Shell>
+  <Privileged>false</Privileged>
+
+  <Icon>https://cdn.mtmt.tech/logo-ai-r.png</Icon>
+  <WebUI>http://[IP]:[PORT:8060]/</WebUI>
+  <TailscalePort>8060</TailscalePort>
+
+  <Overview>MT Photos 智能识别 API 服务，为 MT Photos 提供 OCR、图片内容识别和以文搜图相关能力。本模板使用适用于通用 x86_64 CPU 的 ONNX 镜像。
+
+English: MT Photos AI API service for OCR, image-content recognition and text-to-image search. This template uses the ONNX image for general x86_64 CPUs.</Overview>
+  <Description>MT Photos AI recognition API service using mtphotos/mt-photos-ai:onnx-latest. Add this service's address and matching API_AUTH_KEY in MT Photos settings.</Description>
+  <Category>Productivity: MediaApp:Photos</Category>
+  <ExtraSearchTerms>MT Photos AI OCR CLIP recognition</ExtraSearchTerms>
+  <Requires>需要 x86_64 系统。服务启动后，需在 MT Photos 后台添加智能识别 API 地址及相同的 API_AUTH_KEY。 English: Requires x86_64. After startup, add this AI API address and the same API_AUTH_KEY in MT Photos settings.</Requires>
+
+  <Support>https://mtmt.tech/contact</Support>
+  <Project>https://mtmt.tech/docs/advanced/ocr_api/</Project>
+  <TemplateURL>https://raw.githubusercontent.com/baofeidyz/unraid-template-mtphotos/main/templates/MtPhotos_AI.xml</TemplateURL>
+  <ReadMe>https://raw.githubusercontent.com/baofeidyz/unraid-template-mtphotos/main/README.md</ReadMe>
+
+  <Config Name="API 端口 / API Port" Target="8060" Default="8060" Mode="tcp" Description="MT Photos 智能识别 API 端口。 English: MT Photos AI API port." Type="Port" Display="always" Required="true" Mask="false"/>
+  <Config Name="API 密钥 / API_AUTH_KEY" Target="API_AUTH_KEY" Default="mt_photos_ai_extra_secret" Description="验证 API 请求的密钥；在 MT Photos 后台添加智能识别 API 时填写相同值。建议修改默认值。 English: API request authentication key. Enter the same value in MT Photos AI API settings. Changing the default is recommended." Type="Variable" Display="always" Required="true" Mask="true"/>
+</Container>
